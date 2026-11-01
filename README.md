@@ -1,75 +1,116 @@
-# React + TypeScript + Vite
+# Study Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Study Planner is a simple React application created for Laboratory Work №8.
 
-Currently, two official plugins are available:
+The project demonstrates the fundamentals of React development using components, JSX, props, state, events, conditional rendering, and lists.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Technologies
 
-## React Compiler
+- React 19
+- TypeScript
+- Vite
+- Bootstrap
+- ESLint
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Display a list of study tasks
+- Add new tasks
+- Mark tasks as completed or active
+- Delete tasks
+- Filter tasks by:
+  - All
+  - Active
+  - Completed
+- Display task statistics:
+  - Total tasks
+  - Completed tasks
+  - Active tasks
+- Form validation for the task title
+- Visual distinction for completed tasks
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Task model
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Each task contains:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `id`
+- `title`
+- `description`
+- `completed`
+- `priority`
+- `category`
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Available priorities:
 
+- `low`
+- `medium`
+- `high`
+
+## Project structure
+
+```text
+src/
+├── components/
+│   ├── Header.tsx
+│   ├── TaskFilters.tsx
+│   ├── TaskForm.tsx
+│   ├── TaskItem.tsx
+│   ├── TaskList.tsx
+│   └── TaskStats.tsx
+├── data/
+│   └── initialTasks.ts
+├── types/
+│   └── task.ts
+├── App.tsx
+├── index.css
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## React concepts used
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The project demonstrates:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Functional components
+- JSX / TSX
+- Props
+- Callback functions
+- `useState`
+- Event handling
+- Conditional rendering
+- Rendering lists with `map`
+- Stable `key` values
+- Immutable state updates using `map`, `filter`, and spread syntax
 
+## Installation
+
+```bash
+npm install
 ```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Git branch
+
+```text
+feature/react-fundamentals
+```
+
+## Author
+
+Sebastian Burla
