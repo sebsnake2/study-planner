@@ -18,6 +18,7 @@ The project demonstrates the fundamentals of React development using components,
 - Add new tasks
 - Mark tasks as completed or active
 - Delete tasks
+- Search tasks by title
 - Filter tasks by:
   - All
   - Active
