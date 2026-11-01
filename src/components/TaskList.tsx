@@ -25,7 +25,7 @@ export function TaskList({
   if (tasks.length === 0) {
     return (
       <div className="alert alert-secondary">
-        No tasks match the selected filter.
+        No tasks match your search or filter.
       </div>
     );
   }
