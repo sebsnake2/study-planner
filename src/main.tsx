@@ -5,9 +5,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 import App from "./App";
+import { TaskProvider } from "./context/TaskContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <TaskProvider>
+      <App />
+    </TaskProvider>
   </StrictMode>,
 );

@@ -7,3 +7,18 @@ body {
 #root {
   min-height: 100vh;
 }
+
+.delete-progress {
+  width: 100%;
+  animation: delete-countdown 5s linear forwards;
+}
+
+@keyframes delete-countdown {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}

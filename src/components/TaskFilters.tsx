@@ -1,11 +1,10 @@
+import { useTaskContext } from "../hooks/useTaskContext";
+
 import type { TaskFilter } from "../types/task";
 
-interface TaskFiltersProps {
-  filter: TaskFilter;
-  onFilterChange: (filter: TaskFilter) => void;
-}
+export function TaskFilters() {
+  const { filter, setFilter } = useTaskContext();
 
-export function TaskFilters({ filter, onFilterChange }: TaskFiltersProps) {
   const filters: TaskFilter[] = ["all", "active", "completed"];
 
   return (
@@ -17,7 +16,7 @@ export function TaskFilters({ filter, onFilterChange }: TaskFiltersProps) {
           className={`btn ${
             filter === item ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => onFilterChange(item)}
+          onClick={() => setFilter(item)}
         >
           {item.charAt(0).toUpperCase() + item.slice(1)}
         </button>

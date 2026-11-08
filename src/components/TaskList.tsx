@@ -1,20 +1,31 @@
-import type { Task } from "../types/task";
+import { useTaskContext } from "../hooks/useTaskContext";
 import { TaskItem } from "./TaskItem";
 
+import type { Task } from "../types/task";
+
 interface TaskListProps {
-  tasks: Task[];
-  hasAnyTasks: boolean;
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
+  onEdit: (task: Task) => void;
 }
 
-export function TaskList({
-  tasks,
-  hasAnyTasks,
-  onToggle,
-  onDelete,
-}: TaskListProps) {
-  if (!hasAnyTasks) {
+export function TaskList({ onEdit }: TaskListProps) {
+  const { tasks, filter, search } = useTaskContext();
+
+  const filteredTasks = tasks.filter((task) => {
+    const matchesFilter =
+      filter === "completed"
+        ? task.completed
+        : filter === "active"
+          ? !task.completed
+          : true;
+
+    const matchesSearch = task.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
+
+  if (tasks.length === 0) {
     return (
       <div className="alert alert-info">
         No tasks yet. Add your first learning task.
@@ -22,7 +33,7 @@ export function TaskList({
     );
   }
 
-  if (tasks.length === 0) {
+  if (filteredTasks.length === 0) {
     return (
       <div className="alert alert-secondary">
         No tasks match your search or filter.
@@ -32,13 +43,8 @@ export function TaskList({
 
   return (
     <div>
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onToggle={onToggle}
-          onDelete={onDelete}
-        />
+      {filteredTasks.map((task) => (
+        <TaskItem key={task.id} task={task} onEdit={onEdit} />
       ))}
     </div>
   );

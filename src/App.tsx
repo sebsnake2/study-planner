@@ -5,92 +5,52 @@ import { TaskFilters } from "./components/TaskFilters";
 import { TaskForm } from "./components/TaskForm";
 import { TaskList } from "./components/TaskList";
 import { TaskStats } from "./components/TaskStats";
-import { initialTasks } from "./data/initialTasks";
+import { Toast } from "./components/Toast";
+import { useTaskContext } from "./hooks/useTaskContext";
 
-import type { Task, TaskFilter } from "./types/task";
+import type { Task } from "./types/task";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { search, setSearch, resetTasks } = useTaskContext();
 
-  const [filter, setFilter] = useState<TaskFilter>("all");
-
-  const [search, setSearch] = useState("");
-
-  function addTask(task: Task) {
-    setTasks((currentTasks) => [...currentTasks, task]);
-  }
-
-  function toggleTask(id: number) {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              completed: !task.completed,
-            }
-          : task,
-      ),
-    );
-  }
-
-  function deleteTask(id: number) {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
-  }
-
-  const filteredTasks = tasks.filter((task) => {
-    const matchesFilter =
-      filter === "completed"
-        ? task.completed
-        : filter === "active"
-          ? !task.completed
-          : true;
-
-    const matchesSearch = task.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    return matchesFilter && matchesSearch;
-  });
-
-  const completedCount = tasks.filter((task) => task.completed).length;
-
-  const activeCount = tasks.length - completedCount;
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   return (
     <main className="container py-5">
       <Header />
 
-      <TaskStats
-        total={tasks.length}
-        completed={completedCount}
-        active={activeCount}
+      <TaskStats />
+
+      <TaskForm
+        key={editingTask?.id ?? "new"}
+        editingTask={editingTask}
+        onCancelEdit={() => setEditingTask(null)}
+        onFinishEdit={() => setEditingTask(null)}
       />
 
-      <TaskForm onAddTask={addTask} />
-
-      <div className="mb-3">
-        <label htmlFor="search" className="form-label">
-          Search tasks
-        </label>
-
+      <div className="d-flex gap-2 mb-3">
         <input
-          id="search"
           type="text"
           className="form-control"
           placeholder="Search by title..."
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
+
+        <button
+          type="button"
+          className="btn btn-outline-secondary text-nowrap"
+          onClick={resetTasks}
+        >
+          Reset data
+        </button>
       </div>
 
-      <TaskFilters filter={filter} onFilterChange={setFilter} />
+      <TaskFilters />
 
-      <TaskList
-        tasks={filteredTasks}
-        hasAnyTasks={tasks.length > 0}
-        onToggle={toggleTask}
-        onDelete={deleteTask}
-      />
+      <TaskList onEdit={(task) => setEditingTask(task)} />
+
+      <Toast />
     </main>
   );
 }
